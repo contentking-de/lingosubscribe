@@ -4,6 +4,8 @@ import { generateConfirmationToken } from '@/lib/crypto'
 import { sendOptInEmail } from '@/lib/email-templates'
 import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
 const subscribeSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   name: z.string().min(2, 'Name must be at least 2 characters'),

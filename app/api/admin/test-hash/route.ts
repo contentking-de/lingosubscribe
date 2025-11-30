@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { verifyPassword } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH
   const testPassword = 'LingoSubStart2026!#'
