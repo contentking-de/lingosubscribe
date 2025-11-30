@@ -9,12 +9,13 @@ export const dynamic = 'force-dynamic'
 const subscribeSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   name: z.string().min(2, 'Name must be at least 2 characters'),
+  school: z.string().min(2, 'School/Organisation must be at least 2 characters'),
 })
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { email, name } = subscribeSchema.parse(body)
+    const { email, name, school } = subscribeSchema.parse(body)
 
     // Check if email already exists
     const existing = await prisma.subscription.findUnique({
@@ -32,10 +33,14 @@ export async function POST(request: NextRequest) {
         const confirmationToken = generateConfirmationToken()
         await prisma.subscription.update({
           where: { email },
-          data: { confirmationToken },
+          data: { 
+            confirmationToken,
+            name: name,
+            school: school,
+          },
         })
         
-        await sendOptInEmail(email, name, confirmationToken)
+        await sendOptInEmail(email, name, confirmationToken, school)
         
         return NextResponse.json(
           { message: 'Please check your email to confirm your subscription.' },
@@ -52,6 +57,7 @@ export async function POST(request: NextRequest) {
       data: {
         email,
         name: name,
+        school: school,
         confirmationToken,
         confirmed: false,
       },
@@ -59,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     // Send opt-in confirmation email
     try {
-      await sendOptInEmail(email, name || null, confirmationToken)
+      await sendOptInEmail(email, name, confirmationToken, school)
     } catch (emailError) {
       console.error('Failed to send opt-in email:', emailError)
       // Delete the subscription if email fails

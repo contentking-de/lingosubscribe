@@ -5,10 +5,12 @@ import { z } from 'zod'
 
 const emailSchema = z.string().email('Please enter a valid email address')
 const nameSchema = z.string().min(2, 'Name must be at least 2 characters')
+const schoolSchema = z.string().min(2, 'School/Organisation must be at least 2 characters')
 
 export default function SubscriptionForm() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
+  const [school, setSchool] = useState('')
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
@@ -19,16 +21,17 @@ export default function SubscriptionForm() {
     setMessage('')
 
     try {
-      // Validate both fields
+      // Validate all fields
       emailSchema.parse(email)
       nameSchema.parse(name)
+      schoolSchema.parse(school)
 
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email, name, school }),
       })
 
       const data = await response.json()
@@ -38,6 +41,7 @@ export default function SubscriptionForm() {
         setMessage('Please check your email to confirm your subscription. Click the confirmation link to complete your subscription.')
         setEmail('')
         setName('')
+        setSchool('')
         setAgreedToTerms(false)
       } else {
         setStatus('error')
@@ -63,6 +67,16 @@ export default function SubscriptionForm() {
             placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            placeholder="School/Organisation"
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
           />

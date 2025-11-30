@@ -3,7 +3,8 @@ import { resend } from './resend'
 export async function sendOptInEmail(
   email: string,
   name: string | null,
-  confirmationToken: string
+  confirmationToken: string,
+  school: string | null = null
 ) {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
   const confirmationUrl = `${baseUrl}/api/confirm?token=${confirmationToken}`

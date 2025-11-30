@@ -6,6 +6,7 @@ interface Subscription {
   id: string
   email: string
   name: string | null
+  school: string | null
   createdAt: string
   confirmed: boolean
   confirmedAt: string | null
@@ -167,6 +168,9 @@ export default function SubscriberList() {
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                School/Organisation
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Subscribed
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -185,6 +189,9 @@ export default function SubscriberList() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {sub.name || '-'}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {sub.school || '-'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {new Date(sub.createdAt).toLocaleDateString('en-US', {
