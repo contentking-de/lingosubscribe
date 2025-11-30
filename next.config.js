@@ -5,6 +5,8 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
   },
+  // Disable output file tracing to avoid stack overflow
+  outputFileTracing: false,
 }
 
 module.exports = nextConfig
