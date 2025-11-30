@@ -12,10 +12,10 @@ const nextConfig = {
       'node_modules/@swc/core-linux-x64-musl',
       'node_modules/@esbuild/linux-x64',
       'node_modules/webpack',
+      'node_modules/.cache',
+      'node_modules/.bin',
     ],
   },
-  // Disable output file tracing for problematic packages
-  output: 'standalone',
 }
 
 module.exports = nextConfig
