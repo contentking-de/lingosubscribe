@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 const subscribeSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  school: z.string().min(2, 'School/Organisation must be at least 2 characters'),
+  school: z.string().optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -36,11 +36,11 @@ export async function POST(request: NextRequest) {
           data: { 
             confirmationToken,
             name: name,
-            school: school,
+            school: school || null,
           },
         })
         
-        await sendOptInEmail(email, name, confirmationToken, school)
+        await sendOptInEmail(email, name, confirmationToken, school || null)
         
         return NextResponse.json(
           { message: 'Please check your email to confirm your subscription.' },

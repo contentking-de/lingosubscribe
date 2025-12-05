@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 const emailSchema = z.string().email('Please enter a valid email address')
 const nameSchema = z.string().min(2, 'Name must be at least 2 characters')
-const schoolSchema = z.string().min(2, 'School/Organisation must be at least 2 characters')
+const schoolSchema = z.string().min(2, 'School/Organisation must be at least 2 characters').optional()
 
 export default function SubscriptionForm() {
   const [email, setEmail] = useState('')
@@ -21,17 +21,21 @@ export default function SubscriptionForm() {
     setMessage('')
 
     try {
-      // Validate all fields
+      // Validate required fields
       emailSchema.parse(email)
       nameSchema.parse(name)
-      schoolSchema.parse(school)
+      
+      // Validate school if provided
+      if (school) {
+        schoolSchema.parse(school)
+      }
 
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, name, school }),
+        body: JSON.stringify({ email, name, school: school || undefined }),
       })
 
       const data = await response.json()
@@ -74,10 +78,9 @@ export default function SubscriptionForm() {
         <div>
           <input
             type="text"
-            placeholder="School/Organisation"
+            placeholder="School/Organisation (optional)"
             value={school}
             onChange={(e) => setSchool(e.target.value)}
-            required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
           />
         </div>

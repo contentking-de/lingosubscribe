@@ -122,7 +122,7 @@ export default function Home() {
             </div>
 
             <div id="subscription-form">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Subscribe now!</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Sign up for free!</h3>
               <SubscriptionForm />
             </div>
           </div>

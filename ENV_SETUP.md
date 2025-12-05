@@ -45,3 +45,4 @@ Kopiere den generierten Hash und füge ihn als `ADMIN_PASSWORD_HASH` in deine `.
 5. Setze `RESEND_FROM_EMAIL` auf deine verifizierte Email-Adresse
 
 
+

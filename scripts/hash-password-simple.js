@@ -22,3 +22,4 @@ console.log('   node scripts/hash-password.js "' + password + '"');
 console.log('\nAdd the hash to your .env file as ADMIN_PASSWORD_HASH\n');
 
 
+
